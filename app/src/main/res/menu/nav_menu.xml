@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/title_borrow"
+        android:id="@+id/item_borrow"
+        android:icon="@drawable/ic_baseline_undo_24" />
+    <item
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/title_return"
+        android:id="@+id/item_return"
+        android:icon="@drawable/ic_baseline_redo_24" />
+    <item
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/title_category"
+        android:id="@+id/item_category"
+        android:icon="@drawable/ic_baseline_menu_book_24" />
+    <item
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/title_pesonal"
+        android:id="@+id/item_personal"
+        android:icon="@drawable/ic_baseline_person_pin_24" />
+</menu>

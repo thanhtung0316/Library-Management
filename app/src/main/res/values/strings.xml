@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Quan ly thu vien</string>
+    <string name="title_borrow">QL Mượn sách</string>
+    <string name="title_return">QL Trả sách</string>
+    <string name="title_category">QL Đầu sách</string>
+    <string name="title_pesonal">Cá nhân</string>
+</resources>
