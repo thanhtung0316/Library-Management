@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hoptb.library_management.base.BaseActivity;
 import com.hoptb.library_management.databinding.ActivityMainBinding;
-import com.hoptb.library_management.ui.borrow_book.BorrowFragment;
+import com.hoptb.library_management.ui.borrow_book.BorrowingContainerFragment;
 import com.hoptb.library_management.ui.category.CategoryFragment;
 import com.hoptb.library_management.ui.personal.PersonalFragment;
 import com.hoptb.library_management.ui.return_book.ReturnFragment;
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
     protected void initAct(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             binding.navigationView.setSelectedItemId(R.id.item_borrow);
-            showFragment(BorrowFragment.newInstance());
+            showFragment(BorrowingContainerFragment.newInstance());
         }
         binding.navigationView.setOnNavigationItemSelectedListener(this);
 
@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
         switch (menuItem.getItemId()) {
             case R.id.item_borrow:
                 selectedPos = BORROW_POS;
-                selectedFragment = BorrowFragment.newInstance();
+                selectedFragment = BorrowingContainerFragment.newInstance();
                 break;
             case R.id.item_return:
                 selectedPos = RETURN_POS;

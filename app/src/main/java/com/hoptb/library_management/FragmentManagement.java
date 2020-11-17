@@ -17,7 +17,6 @@ public class FragmentManagement {
         }
         return INSTANCE;
     }
-
     public void addFragment(Fragment fragment) {
         if (getFragmentPosition(fragment) != -1)
             mFragments.remove(getFragmentPosition(fragment));
@@ -57,5 +56,4 @@ public class FragmentManagement {
         }
         return false;
     }
-
 }

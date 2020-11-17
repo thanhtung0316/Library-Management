@@ -22,6 +22,11 @@ public class ReturnFragment extends BaseFragment<FragmentReturnBinding, ReturnVi
     }
 
     @Override
+    protected void onCreateView() {
+
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_return;
     }

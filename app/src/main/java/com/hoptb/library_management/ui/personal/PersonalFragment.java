@@ -22,6 +22,11 @@ public class PersonalFragment extends BaseFragment<FragmentPersonalBinding, Pers
     }
 
     @Override
+    protected void onCreateView() {
+
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_personal;
     }

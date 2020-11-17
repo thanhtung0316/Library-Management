@@ -1,217 +1,378 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Thông tin sách"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvTitleSelectBook"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:text="Chọn tên sách: "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            app:layout_constraintWidth_percent=".5" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintBottom_toBottomOf="@id/tvTitleSelectBook"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvTitleSelectBook"
-            app:layout_constraintTop_toTopOf="@id/tvTitleSelectBook" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:background="#FFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitleSelectBook">
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/glCenter"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent=".5" />
-
-            <View
-                android:id="@+id/viewTop"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="#AEACAC"
+                android:background="#9BF4FF"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Mượn sách"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvTitleBookCode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingVertical="5dp"
-                android:paddingStart="16dp"
-                android:text="Mã sách:"
-                app:layout_constraintEnd_toEndOf="@id/glCenter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewTop" />
-
-            <TextView
-                android:id="@+id/tvAmount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Số lượng:"
-                app:layout_constraintBottom_toBottomOf="@id/tvTitleBookCode"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/glCenter"
-                app:layout_constraintTop_toTopOf="@id/tvTitleBookCode" />
-
-            <TextView
-                android:id="@+id/tvTitleRemaining"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp"
-                android:text="Còn lại:"
-                app:layout_constraintEnd_toEndOf="@id/glCenter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitleBookCode" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/tvTitleRemaining"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/glCenter"
-                app:layout_constraintTop_toTopOf="@id/tvTitleRemaining"
-                tools:text="10 cuốn" />
-
-
-            <TextView
-                android:id="@+id/tvTitleType"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp"
-                android:text="Loại sách:"
-                app:layout_constraintEnd_toEndOf="@id/glCenter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitleRemaining" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/tvTitleType"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/glCenter"
-                app:layout_constraintTop_toTopOf="@id/tvTitleType"
-                tools:text="Ngoại Ngữ" />
-
-            <TextView
-                android:id="@+id/tvTitleAuthor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp"
-                android:text="Tác giả:"
-                app:layout_constraintEnd_toEndOf="@id/glCenter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitleType" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/tvTitleAuthor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/glCenter"
-                app:layout_constraintTop_toTopOf="@id/tvTitleAuthor"
-                tools:text="Nguyễn Nhật Ánh" />
-
-            <TextView
-                android:id="@+id/tvTitlePublisher"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp"
-                android:text="Nhà xuất bản:"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/glCenter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitleAuthor" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/tvTitlePublisher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/glCenter"
-                app:layout_constraintTop_toTopOf="@id/tvTitlePublisher"
-                tools:text="NXB Kim Đồng" />
-
-            <View
-                android:id="@+id/viewBot"
+            <ImageView
+                android:id="@+id/imBack"
                 android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="#AEACAC"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+            <ImageView
+                android:id="@+id/imBook"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:src="@drawable/book_demo"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="5dp"
-            app:cardElevation="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clInfo">
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_marginVertical="5dp"
+                android:background="#FFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imBook">
 
-                <ImageView
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/glCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_undo_24" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".5" />
+
+                <View
+                    android:id="@+id/viewTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvTitleBookName"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Cho mượn sách" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Tên sách: "
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBookName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvBookName"
+                    app:layout_constraintWidth_percent=".5" />
+
+
+                <TextView
+                    android:id="@+id/tvBookName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/viewTop"
+                    tools:text="How to save a life" />
+
+                <TextView
+                    android:id="@+id/tvTitleBookCode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingStart="16dp"
+                    android:text="Mã sách:"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAmount"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvAmount" />
+
+                <TextView
+                    android:id="@+id/tvAmount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Số lượng:"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvBookName" />
+
+                <TextView
+                    android:id="@+id/tvTitleRemaining"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Còn lại:"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvRemaining"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvRemaining" />
+
+                <TextView
+                    android:id="@+id/tvRemaining"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvAmount"
+                    tools:text="10 cuốn" />
+
+
+                <TextView
+                    android:id="@+id/tvTitleType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Loại sách:"
+                    app:layout_constraintBottom_toBottomOf="@id/tvBookType"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvBookType" />
+
+                <TextView
+                    android:id="@+id/tvBookType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvRemaining"
+                    tools:text="Ngoại Ngữ" />
+
+                <TextView
+                    android:id="@+id/tvTitleAuthor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Tác giả:"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAuthor"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvAuthor" />
+
+                <TextView
+                    android:id="@+id/tvAuthor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/tvBookType"
+                    tools:text="Nguyễn Nhật Ánh" />
+
+                <TextView
+                    android:id="@+id/tvTitlePublisher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Nhà xuất bản:"
+                    app:layout_constraintBottom_toBottomOf="@id/tvPublisher"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvPublisher" />
+
+                <TextView
+                    android:id="@+id/tvPublisher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
+                    tools:text="NXB Kim Đồng" />
+
+                <View
+                    android:id="@+id/viewBot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/colorView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvTitleReader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="16dp"
+                android:text="Độc giả:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clInfo"
+                app:layout_constraintWidth_percent=".3" />
+
+            <Spinner
+                android:id="@+id/spReader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvTitleReader"
+                app:layout_constraintEnd_toStartOf="@id/cvAdd"
+                app:layout_constraintStart_toEndOf="@id/tvTitleReader"
+                app:layout_constraintTop_toTopOf="@id/tvTitleReader" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="16dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/spReader"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/spReader">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic_baseline_person_add_24" />
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/tvTitleBorrowDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="5dp"
+                android:text="Ngày mượn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spReader"
+                app:layout_constraintWidth_percent=".5" />
+
+            <TextView
+                android:id="@+id/tvBorrowDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/bg_edit_text"
+                app:layout_constraintEnd_toEndOf="@id/tvTitleBorrowDate"
+                app:layout_constraintStart_toStartOf="@id/tvTitleBorrowDate"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleBorrowDate" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_baseline_today_24"
+                app:layout_constraintBottom_toBottomOf="@id/tvBorrowDate"
+                app:layout_constraintEnd_toEndOf="@id/tvBorrowDate"
+                app:layout_constraintTop_toTopOf="@id/tvBorrowDate" />
+
+
+            <TextView
+                android:id="@+id/tvTitleReturnDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="5dp"
+                android:text="Ngày hẹn trả"
+                app:layout_constraintBottom_toBottomOf="@id/tvTitleBorrowDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/tvTitleBorrowDate"
+                app:layout_constraintTop_toTopOf="@id/tvTitleBorrowDate"
+                app:layout_constraintWidth_percent=".5" />
+
+
+            <TextView
+                android:id="@+id/tvReturnDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/bg_edit_text"
+                app:layout_constraintEnd_toEndOf="@id/tvTitleReturnDate"
+                app:layout_constraintStart_toStartOf="@id/tvTitleReturnDate"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleBorrowDate" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_baseline_today_24"
+                app:layout_constraintBottom_toBottomOf="@id/tvReturnDate"
+                app:layout_constraintEnd_toEndOf="@id/tvReturnDate"
+                app:layout_constraintTop_toTopOf="@id/tvReturnDate" />
+
+            <TextView
+                android:id="@+id/tvTitleNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="Số lượng mượn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBorrowDate" />
+
+            <EditText
+                android:id="@+id/tvNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_text"
+                android:hint="Nhập số lượng"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleNumber" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
+                android:text="Cho mượn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

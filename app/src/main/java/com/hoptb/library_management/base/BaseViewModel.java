@@ -1,7 +1,15 @@
 package com.hoptb.library_management.base;
 
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public abstract class BaseViewModel extends ViewModel {
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 
+public abstract class BaseViewModel extends AndroidViewModel {
+    private Application application;
+
+    public BaseViewModel(@NonNull Application application) {
+        super(application);
+        this.application = application;
+    }
 }

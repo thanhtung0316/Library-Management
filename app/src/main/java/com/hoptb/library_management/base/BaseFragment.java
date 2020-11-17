@@ -28,8 +28,11 @@ public abstract class BaseFragment<BD extends ViewDataBinding, V extends BaseVie
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+        onCreateView();
         return binding.getRoot();
     }
+
+    protected abstract void onCreateView();
 
     protected abstract int getLayoutId();
 
