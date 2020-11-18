@@ -141,5 +141,28 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         return updateStatus;
     }
 
+    public List<Book> search(String keySearch) {
+        List<Book> bookList = new ArrayList<>();
+        String query = "SELECT * FROM " + BOOK_TABLE_NAME + " WHERE " + BOOK_NAME + " LIKE " + "'" + keySearch + "%'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Book book = new Book();
+            book.setBookId(cursor.getInt(0));
+            book.setBookName(cursor.getString(1));
+            book.setAmount(cursor.getInt(2));
+            book.setBookType(cursor.getString(3));
+            book.setPublisher(cursor.getString(4));
+            book.setAuthor(cursor.getString(5));
+            book.setImage(cursor.getString(6));
+            book.setDescription(cursor.getString(7));
+            bookList.add(book);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return bookList;
+    }
 
 }

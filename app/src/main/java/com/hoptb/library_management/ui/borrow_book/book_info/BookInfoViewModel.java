@@ -14,7 +14,8 @@ import java.util.List;
 public class BookInfoViewModel extends BaseViewModel {
     private LibraryManagementOpenHelper libraryManagementOpenHelper;
     public MutableLiveData<List<Book>> listBook = new MutableLiveData<>();
-
+    public MutableLiveData<List<Book>> searchingList = new MutableLiveData<>();
+    public MutableLiveData<Book> bookInfo = new MutableLiveData<>();
 
     public BookInfoViewModel(@NonNull Application application) {
         super(application);
@@ -23,5 +24,12 @@ public class BookInfoViewModel extends BaseViewModel {
 
     public void getAllBooks() {
         listBook.postValue(libraryManagementOpenHelper.getAllBooks());
+    }
+
+    public void search(String key) {
+        searchingList.postValue(libraryManagementOpenHelper.search(key));
+    }
+    public void getBookInfo(int bookId) {
+        bookInfo.postValue(libraryManagementOpenHelper.selectBook(bookId));
     }
 }

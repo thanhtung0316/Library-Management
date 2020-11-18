@@ -11,4 +11,5 @@
     <string name="title_book_id"><b>Mã sách: </b>%s</string>
     <string name="title_count"><b>Còn lại: </b>%s</string>
     <string name="title_desc"><b>Giới thiệu: </b>%s</string>
+    <string name="no_search_result">Không có kết quả tìm kiếm cho <b> %s</b></string>
 </resources>
