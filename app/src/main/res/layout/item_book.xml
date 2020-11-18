@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="book"
+            type="com.hoptb.library_management.model.Book" />
+
+        <variable
+            name="listener"
+            type="com.hoptb.library_management.ui.category.list_book.BookItemListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{ v->listener.onBookClick(book)}"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/imOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{v-> listener.onOptionClick(book,v)}"
+                android:padding="3dp"
+                android:src="@drawable/ic_baseline_more_vert_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imBook"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/book_demo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBookName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="@{book.bookName}"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/imOption"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/imBook"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Trên đường băng" />
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="@{@string/title_description(book.description)}"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/tvBookName"
+                app:layout_constraintStart_toStartOf="@id/tvBookName"
+                app:layout_constraintTop_toBottomOf="@id/tvBookName"
+                tools:text="Giới thiệu: TRÊN ĐƯỜNG BĂNG là cuốn sách tập hợp những bài viết truyền cảm hứng và hướng dẫn kỹ năng cho các bạn trẻ khi chuẩn bị bước vào đời. Cuốn Trên Đường Băng được chia làm 3 phần: “Chuẩn bị hành trang”, “Trong phòng chờ sân bay” và “Lên máy bay”, tương ứng với những quá trình một bạn trẻ phải trải qua trước khi “cất cánh” trên đường băng cuộc đời, bay vào bầu trời cao rộng." />
+
+            <TextView
+                android:id="@+id/tvAuthor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{@string/title_author(book.author)}"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/tvBookName"
+                app:layout_constraintStart_toStartOf="@id/tvBookName"
+                app:layout_constraintTop_toBottomOf="@id/tvDesc"
+                tools:text="Tác giả: Tony Buổi Sáng" />
+
+            <TextView
+                android:id="@+id/tvPublisher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{@string/title_publisher(book.publisher)}"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/tvBookName"
+                app:layout_constraintStart_toStartOf="@id/tvBookName"
+                app:layout_constraintTop_toBottomOf="@id/tvAuthor"
+                tools:text="Nhà xuất bản: NXB Kim Đồng" />
+
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{@string/title_amount(book.amount)}"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/tvBookName"
+                app:layout_constraintStart_toStartOf="@id/tvBookName"
+                app:layout_constraintTop_toBottomOf="@id/tvPublisher"
+                tools:text="Số lượng: 99" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

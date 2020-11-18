@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Quan ly thu vien</string>
-    <string name="title_borrow">QL Mượn sách</string>
-    <string name="title_return">QL Trả sách</string>
-    <string name="title_category">QL Đầu sách</string>
+    <string name="title_borrow">QL Mượn</string>
+    <string name="title_return">QL Trả </string>
+    <string name="title_category">QL Sách</string>
     <string name="title_pesonal">Cá nhân</string>
+    <string name="title_description"><b>Giới thiệu: </b>%s</string>
+    <string name="title_author"><b>Tác giả: </b>%s</string>
+    <string name="title_publisher"><b>Nhà xuất bản: </b>%s</string>
+    <string name="title_amount"><b>Số lượng: </b>%s</string>
+    <string name="title_book_id"><b>Mã sách: </b>%s</string>
+    <string name="title_count"><b>Còn lại: </b>%s</string>
+    <string name="title_desc"><b>Giới thiệu: </b>%s</string>
 </resources>

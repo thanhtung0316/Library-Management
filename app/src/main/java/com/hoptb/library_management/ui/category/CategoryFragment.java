@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.hoptb.library_management.R;
 import com.hoptb.library_management.base.BaseFragment;
 import com.hoptb.library_management.databinding.FragmentContainerBinding;
-import com.hoptb.library_management.ui.category.add_new_book.AddBookFragment;
 import com.hoptb.library_management.ui.category.list_book.ListBookFragment;
 
 public class CategoryFragment extends BaseFragment<FragmentContainerBinding, CategoryViewModel> {
@@ -57,11 +56,13 @@ public class CategoryFragment extends BaseFragment<FragmentContainerBinding, Cat
         transaction.commit();
     }
 
-    public void showFragment(Fragment fm) {
+    public void showFragment(Fragment fm, boolean reloadData) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.hide(ListBookFragment.newInstance());
-        transaction.hide(AddBookFragment.newInstance());
+        for (Fragment f : getChildFragmentManager().getFragments()) {
+            transaction.hide(f);
+        }
         transaction.show(fm);
+        viewModel.needReloadListBook.setValue(reloadData);
         transaction.commit();
     }
 

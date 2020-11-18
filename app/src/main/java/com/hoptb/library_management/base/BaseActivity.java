@@ -21,4 +21,6 @@ public abstract class BaseActivity<BD extends ViewDataBinding> extends AppCompat
     protected abstract void initAct(@Nullable Bundle savedInstanceState);
 
     protected abstract int getLayoutId();
+
+
 }

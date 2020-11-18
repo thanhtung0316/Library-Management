@@ -6,19 +6,24 @@ public class Book extends BaseModel {
 
     private int bookId;
     private String bookType;
+    private int amount;
     private String author;
     private String publisher;
     private String bookName;
     private String image;
     private String description;
 
-    public Book(String bookType, String author, String publisher, String bookName, String image, String description) {
+    public Book() {
+    }
+
+    public Book(int amount, String bookType, String author, String publisher, String bookName, String image, String description) {
         this.bookType = bookType;
         this.author = author;
         this.publisher = publisher;
         this.bookName = bookName;
         this.image = image;
         this.description = description;
+        this.amount = amount;
     }
 
     public int getBookId() {
@@ -51,6 +56,14 @@ public class Book extends BaseModel {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getBookName() {
