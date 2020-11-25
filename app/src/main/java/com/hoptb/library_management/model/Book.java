@@ -89,4 +89,9 @@ public class Book extends BaseModel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return bookName;
+    }
 }

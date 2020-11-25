@@ -4,7 +4,7 @@ import com.hoptb.library_management.base.BaseModel;
 
 public class Reader extends BaseModel {
     private int readerId;
-    private int readerName;
+    private String readerName;
     private String studentCode;
 
     public int getReaderId() {
@@ -15,11 +15,11 @@ public class Reader extends BaseModel {
         this.readerId = readerId;
     }
 
-    public int getReaderName() {
+    public String getReaderName() {
         return readerName;
     }
 
-    public void setReaderName(int readerName) {
+    public void setReaderName(String readerName) {
         this.readerName = readerName;
     }
 
@@ -29,5 +29,10 @@ public class Reader extends BaseModel {
 
     public void setStudentCode(String studentCode) {
         this.studentCode = studentCode;
+    }
+
+    @Override
+    public String toString() {
+        return readerName;
     }
 }

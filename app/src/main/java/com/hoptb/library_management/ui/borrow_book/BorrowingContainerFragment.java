@@ -8,6 +8,8 @@ import com.hoptb.library_management.base.BaseFragment;
 import com.hoptb.library_management.databinding.FragmentBorrowContainerBinding;
 import com.hoptb.library_management.ui.borrow_book.book_info.BookInfoFragment;
 import com.hoptb.library_management.ui.borrow_book.borrow.BookBorrowingFragment;
+import com.hoptb.library_management.ui.category.CategoryFragment;
+import com.hoptb.library_management.ui.category.list_book.ListBookFragment;
 
 public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowContainerBinding, BorrowingContainerViewModel> {
     private static BorrowingContainerFragment INSTANCE;
@@ -58,10 +60,11 @@ public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowConta
         transaction.commit();
     }
 
-    public void showFragment(Fragment fm) {
+    public void showFragment(Fragment fm, boolean reloadData) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.hide(BookBorrowingFragment.newInstance());
-        transaction.hide(BookInfoFragment.newInstance());
+        for (Fragment f : getChildFragmentManager().getFragments()) {
+            transaction.hide(f);
+        }
         transaction.show(fm);
         transaction.commit();
     }
@@ -77,6 +80,14 @@ public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowConta
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void closeFragment(boolean reloadData) {
+        CategoryFragment containerFragment = (CategoryFragment) getParentFragment();
+        if (containerFragment != null) {
+            containerFragment.removeFragment(this);
+            containerFragment.showFragment(ListBookFragment.newInstance(), reloadData);
         }
     }
 }

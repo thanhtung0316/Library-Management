@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hoptb.library_management.model.Book;
+import com.hoptb.library_management.model.Reader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
                 BOOK_TABLE_NAME, BOOK_ID, BOOK_NAME, AMOUNT, BOOK_TYPE, PUBLISHER, AUTHOR, IMAGE, DESCRIPTION);
 
         String createReaderTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
-                READER_TABLE_NAME, READER_ID, READER_NAME, STUDENT_CODE);
+                READER_TABLE_NAME, READER_ID, STUDENT_CODE, READER_NAME);
 
         db.execSQL(createBookTable);
         db.execSQL(createReaderTable);
@@ -121,8 +122,8 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             book.setAuthor(cursor.getString(5));
             book.setImage(cursor.getString(6));
             book.setDescription(cursor.getString(7));
-            database.close();
         }
+        database.close();
         return book;
     }
 
@@ -136,14 +137,16 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(PUBLISHER, book.getPublisher());
         values.put(IMAGE, book.getImage());
         values.put(DESCRIPTION, book.getDescription());
-        int updateStatus = database.update(BOOK_TABLE_NAME, values, BOOK_ID + " = " + book.getBookId(), null);
+        int updateStatus = database.update(BOOK_TABLE_NAME, values, BOOK_ID + " = "
+                + book.getBookId(), null);
         database.close();
         return updateStatus;
     }
 
     public List<Book> search(String keySearch) {
         List<Book> bookList = new ArrayList<>();
-        String query = "SELECT * FROM " + BOOK_TABLE_NAME + " WHERE " + BOOK_NAME + " LIKE " + "'" + keySearch + "%'";
+        String query = "SELECT * FROM " + BOOK_TABLE_NAME + " WHERE " + BOOK_NAME + " LIKE " + "'"
+                + keySearch + "%'";
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -165,4 +168,36 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         return bookList;
     }
 
+    public Reader selectReader(int readerId) {
+        Reader reader = new Reader();
+        String query = "SELECT * FROM " + READER_TABLE_NAME + " WHERE " + READER_ID + " = " + readerId;
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            reader.setReaderId(cursor.getInt(0));
+            reader.setStudentCode(cursor.getString(1));
+            reader.setReaderName(cursor.getString(2));
+        }
+        database.close();
+        return reader;
+    }
+
+    public long insertReader(Reader reader) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(READER_NAME, reader.getReaderName());
+        values.put(STUDENT_CODE, reader.getStudentCode());
+        long rowInserted = database.insert(READER_TABLE_NAME, null, values);
+        database.close();
+        return rowInserted;
+    }
+
+    public int deleteReader(int readerId) {
+        SQLiteDatabase database = getWritableDatabase();
+        int deleteStatus = database.delete(READER_TABLE_NAME, READER_ID + " = ?",
+                new String[]{String.valueOf(readerId)});
+        database.close();
+        return deleteStatus;
+    }
 }

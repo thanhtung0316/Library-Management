@@ -122,29 +122,29 @@
                     app:layout_constraintStart_toStartOf="@id/glCenter"
                     app:layout_constraintTop_toBottomOf="@id/tvBookName" />
 
-                <TextView
-                    android:id="@+id/tvTitleRemaining"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="5dp"
-                    android:text="Còn lại:"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvRemaining"
-                    app:layout_constraintEnd_toEndOf="@id/glCenter"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvRemaining" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvTitleRemaining"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:paddingHorizontal="16dp"-->
+                <!--                    android:paddingVertical="5dp"-->
+                <!--                    android:text="Còn lại:"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="@+id/tvRemaining"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@id/glCenter"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="@+id/tvRemaining" />-->
 
-                <TextView
-                    android:id="@+id/tvRemaining"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="5dp"
-                    android:paddingEnd="5dp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/glCenter"
-                    app:layout_constraintTop_toBottomOf="@id/tvAmount"
-                    tools:text="10 cuốn" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvRemaining"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:paddingVertical="5dp"-->
+                <!--                    android:paddingEnd="5dp"-->
+                <!--                    android:textStyle="bold"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/glCenter"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/tvAmount"-->
+                <!--                    tools:text="10 cuốn" />-->
 
 
                 <TextView
@@ -168,7 +168,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/glCenter"
-                    app:layout_constraintTop_toBottomOf="@id/tvRemaining"
+                    app:layout_constraintTop_toBottomOf="@id/tvAmount"
                     tools:text="Ngoại Ngữ" />
 
                 <TextView
@@ -245,6 +245,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
+                android:background="@drawable/bg_edit_text"
+                android:minHeight="30dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvTitleReader"
                 app:layout_constraintEnd_toStartOf="@id/cvAdd"
                 app:layout_constraintStart_toEndOf="@id/tvTitleReader"
