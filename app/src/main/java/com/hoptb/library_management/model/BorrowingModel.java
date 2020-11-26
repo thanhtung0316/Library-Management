@@ -12,7 +12,15 @@ public class BorrowingModel extends BaseModel {
     private String brDate;
     private String rtDate;
     private String readerName;
+    private String bookName;
 
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
 
     public String getReaderName() {
         return readerName;

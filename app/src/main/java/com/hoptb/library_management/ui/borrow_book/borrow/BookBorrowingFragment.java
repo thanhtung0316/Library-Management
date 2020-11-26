@@ -157,12 +157,16 @@ public class BookBorrowingFragment extends BaseFragment<FragmentBookBorrowingBin
                     Toast.makeText(getContext(), "Vui lòng chọn ngày trả", Toast.LENGTH_SHORT).show();
                 } else if (binding.edAmount.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Vui lòng nhập số lượng", Toast.LENGTH_SHORT).show();
-                } else if (b.getAmount() < Integer.parseInt(binding.edAmount.getText().toString())) {
+                } else if (Integer.parseInt(binding.edAmount.getText().toString()) > 5 ) {
+                    Toast.makeText(getContext(), "Mỗi độc giả chỉ được mượn tối đa 5 quyển!", Toast.LENGTH_SHORT).show();
+                }else if (b.getAmount() < Integer.parseInt(binding.edAmount.getText().toString())){
                     Toast.makeText(getContext(), "Số lượng sách trong kho không còn đủ!", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+
+                else {
                     if (bookId != null && reader != null) {
                         BorrowingModel br = new BorrowingModel();
-
+                        br.setBookName(b.getBookName());
                         br.setBookId(bookId);
                         br.setReaderId(reader.getReaderId());
                         br.setReaderName(reader.getReaderName());

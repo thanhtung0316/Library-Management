@@ -35,11 +35,16 @@ public class BookInfoViewModel extends BaseViewModel {
     }
 
     public void getBookInfo(int bookId) {
+        if (bookId==0)return;
         bookInfo.postValue(libraryManagementOpenHelper.selectBook(bookId));
     }
 
-    public void getListBr() {
-        brList.postValue(libraryManagementOpenHelper.getAllBrRecords());
+//    public void getListBr() {
+//        brList.postValue(libraryManagementOpenHelper.getAllBrRecords());
+//    }
+
+    public void getListBr(String bookId){
+        brList.postValue(libraryManagementOpenHelper.getBrListThroughBookId(bookId));
     }
 
     public void updateBook(Book book) {

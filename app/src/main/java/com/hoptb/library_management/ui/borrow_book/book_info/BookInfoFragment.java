@@ -45,7 +45,6 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     @Override
     protected void onCreateView() {
         viewModel.getAllBooks();
-        viewModel.getListBr();
         adapter = new BaseAdapter<>(getContext(), R.layout.item_br_record);
         binding.rcBorrow.setAdapter(adapter);
 
@@ -66,13 +65,14 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
         viewModel.updateBookStatus.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                viewModel.getBookInfo(bookId);
+//                viewModel.getBookInfo(bookId);
             }
         });
         viewModel.bookInfo.observe(getViewLifecycleOwner(), new Observer<Book>() {
             @Override
             public void onChanged(Book book) {
                 setUpView(book);
+                viewModel.getListBr(String.valueOf(book.getBookId()));
             }
         });
 
@@ -83,6 +83,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
                 Adapter adapter = adapterView.getAdapter();
                 book = (Book) adapter.getItem(i);
                 setUpView(book);
+                viewModel.getListBr(String.valueOf(book.getBookId()));
             }
 
             @Override
@@ -104,7 +105,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
             @Override
             public void onRefresh() {
                 viewModel.getAllBooks();
-                viewModel.getBookInfo(bookId);
+                viewModel.getListBr(String.valueOf(bookId));
                 Toast.makeText(getContext(), "Đã làm mới", Toast.LENGTH_SHORT).show();
                 binding.swipeRf.setRefreshing(false);
             }
@@ -135,6 +136,11 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lnBorrow:
+                if (book==null){
+                    Toast.makeText(getContext(), "Vui lòng chọn đầu sách.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (book.getAmount() <= 0) {
                     Toast.makeText(getContext(), "Sách này trong kho đã hết, vui lòng chọn cuốn khác!", Toast.LENGTH_SHORT).show();
                     return;
@@ -152,7 +158,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     public void setData(int amount) {
         book.setAmount(book.getAmount() - amount);
         viewModel.updateBook(book);
-        viewModel.getListBr();
+        viewModel.getListBr(String.valueOf(book.getBookId()));
 
     }
 }

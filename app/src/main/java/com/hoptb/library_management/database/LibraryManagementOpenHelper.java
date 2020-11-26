@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.hoptb.library_management.model.Book;
 import com.hoptb.library_management.model.BorrowingModel;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
+    private static final String TAG = "LibraryManagementOpenHe";
     private static final String DATABASE_NAME = "libraryManagement.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -53,8 +55,8 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         String createReaderTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
                 READER_TABLE_NAME, READER_ID, STUDENT_CODE, READER_NAME);
 
-        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
-                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE, READER_NAME);
+        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
+                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE, READER_NAME,BOOK_NAME);
 
         db.execSQL(createBookTable);
         db.execSQL(createReaderTable);
@@ -135,6 +137,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             book.setAuthor(cursor.getString(5));
             book.setImage(cursor.getString(6));
             book.setDescription(cursor.getString(7));
+            cursor.close();
         }
         database.close();
         return book;
@@ -181,6 +184,61 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         return bookList;
     }
 
+
+    public List<BorrowingModel> getBrListThroughBookId(String bookId) {
+        List<BorrowingModel> brList = new ArrayList<>();
+        String query = "SELECT * FROM " + BR_TABLE_NAME + " WHERE " + BOOK_ID + " = " + "'"
+                + bookId + "'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                BorrowingModel br = new BorrowingModel();
+                br.setBrId(cursor.getInt(0));
+                br.setBookId(cursor.getInt(1));
+                br.setReaderId(cursor.getInt(2));
+                br.setAmount(cursor.getInt(3));
+                br.setBrDate(cursor.getString(4));
+                br.setRtDate(cursor.getString(5));
+                br.setReaderName(cursor.getString(6));
+                br.setBookName(cursor.getString(7));
+                brList.add(br);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return brList;
+    }
+
+    public List<BorrowingModel> getBrListThroughCode(String code) {
+        List<BorrowingModel> brList = new ArrayList<>();
+        String query = "SELECT * FROM " + BR_TABLE_NAME + " WHERE " + READER_ID + " = " + "'"
+                + code + "'";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                BorrowingModel br = new BorrowingModel();
+                br.setBrId(cursor.getInt(0));
+                br.setBookId(cursor.getInt(1));
+                br.setReaderId(cursor.getInt(2));
+                br.setAmount(cursor.getInt(3));
+                br.setBrDate(cursor.getString(4));
+                br.setRtDate(cursor.getString(5));
+                br.setReaderName(cursor.getString(6));
+                br.setBookName(cursor.getString(7));
+                brList.add(br);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return brList;
+    }
+
     public Reader selectReader(String code) {
 
         String query = "SELECT * FROM " + READER_TABLE_NAME + " WHERE " + STUDENT_CODE + " = " + code;
@@ -191,6 +249,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             reader.setReaderId(cursor.getInt(0));
             reader.setStudentCode(cursor.getString(1));
             reader.setReaderName(cursor.getString(2));
+            cursor.close();
             return reader;
         }
         database.close();
@@ -240,6 +299,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(AMOUNT, br.getAmount());
         values.put(BOOK_ID, br.getBookId());
         values.put(READER_ID, br.getReaderId());
+        values.put(BOOK_NAME, br.getBookName());
         values.put(READER_NAME, br.getReaderName());
         values.put(BR_DATE, br.getBrDate());
         values.put(RT_DATE, br.getRtDate());

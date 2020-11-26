@@ -22,6 +22,7 @@ public class BookBorrowingViewModel extends BaseViewModel {
     }
 
     public void getBookInfo(int bookId) {
+        if (bookId==0)return;
         bookInfo.postValue(libraryManagementOpenHelper.selectBook(bookId));
     }
 
