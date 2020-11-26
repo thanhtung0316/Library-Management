@@ -240,8 +240,8 @@
                 app:layout_constraintTop_toBottomOf="@id/clInfo"
                 app:layout_constraintWidth_percent=".3" />
 
-            <Spinner
-                android:id="@+id/spReader"
+            <TextView
+                android:id="@+id/tvReaderName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
@@ -261,9 +261,9 @@
                 android:layout_marginEnd="16dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/spReader"
+                app:layout_constraintBottom_toBottomOf="@id/tvReaderName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/spReader">
+                app:layout_constraintTop_toTopOf="@id/tvReaderName">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -284,7 +284,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spReader"
+                app:layout_constraintTop_toBottomOf="@id/tvReaderName"
                 app:layout_constraintWidth_percent=".5" />
 
             <TextView
@@ -354,17 +354,20 @@
                 app:layout_constraintTop_toBottomOf="@id/tvBorrowDate" />
 
             <EditText
-                android:id="@+id/tvNumber"
+                android:id="@+id/edAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edit_text"
                 android:hint="Nhập số lượng"
                 android:inputType="number"
+                android:textSize="14sp"
+                android:maxLength="5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitleNumber" />
 
             <Button
+                android:id="@+id/btnBr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
@@ -373,7 +376,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+                app:layout_constraintTop_toBottomOf="@id/edAmount" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

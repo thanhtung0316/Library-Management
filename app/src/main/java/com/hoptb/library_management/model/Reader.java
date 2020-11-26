@@ -3,6 +3,7 @@ package com.hoptb.library_management.model;
 import com.hoptb.library_management.base.BaseModel;
 
 public class Reader extends BaseModel {
+    private int numericalOrder;
     private int readerId;
     private String readerName;
     private String studentCode;
@@ -29,6 +30,14 @@ public class Reader extends BaseModel {
 
     public void setStudentCode(String studentCode) {
         this.studentCode = studentCode;
+    }
+
+    public int getNumericalOrder() {
+        return numericalOrder;
+    }
+
+    public void setNumericalOrder(int numericalOrder) {
+        this.numericalOrder = numericalOrder;
     }
 
     @Override

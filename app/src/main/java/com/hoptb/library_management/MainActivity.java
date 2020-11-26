@@ -1,11 +1,8 @@
 package com.hoptb.library_management;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -110,5 +107,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
                     t.show(fragToShow).commit();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
     }
 }

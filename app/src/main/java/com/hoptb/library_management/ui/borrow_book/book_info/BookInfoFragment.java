@@ -12,7 +12,6 @@ import com.hoptb.library_management.base.BaseFragment;
 import com.hoptb.library_management.databinding.FragmentBookInfoBinding;
 import com.hoptb.library_management.model.Book;
 import com.hoptb.library_management.ui.borrow_book.BorrowingContainerFragment;
-import com.hoptb.library_management.ui.borrow_book.borrow.BookBorrowingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +95,8 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
             case R.id.lnBorrow:
                 BorrowingContainerFragment fragments = (BorrowingContainerFragment) getParentFragment();
                 if (fragments != null) {
-                    fragments.addFragment(BookBorrowingFragment.newInstance(bookId));
+                    fragments.getBorrowingFragment().setData(bookId);
+                    fragments.showFragment(fragments.getBorrowingFragment());
                 }
                 break;
         }

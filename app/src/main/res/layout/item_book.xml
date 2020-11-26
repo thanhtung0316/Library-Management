@@ -7,7 +7,7 @@
     <data>
 
         <variable
-            name="book"
+            name="item"
             type="com.hoptb.library_management.model.Book" />
 
         <variable
@@ -25,14 +25,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{ v->listener.onBookClick(book)}"
+            android:onClick="@{ v->listener.onBookClick(item)}"
             android:padding="5dp">
 
             <ImageView
                 android:id="@+id/imOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{v-> listener.onOptionClick(book,v)}"
+                android:onClick="@{v-> listener.onOptionClick(item,v)}"
                 android:padding="3dp"
                 android:src="@drawable/ic_baseline_more_vert_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +56,7 @@
                 android:layout_margin="5dp"
                 android:ellipsize="end"
                 android:maxLines="4"
-                android:text="@{book.bookName}"
+                android:text="@{item.bookName}"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/imOption"
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="@{@string/title_description(book.description)}"
+                android:text="@{@string/title_description(item.description)}"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/tvBookName"
                 app:layout_constraintStart_toStartOf="@id/tvBookName"
@@ -82,7 +82,7 @@
                 android:id="@+id/tvAuthor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/title_author(book.author)}"
+                android:text="@{@string/title_author(item.author)}"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/tvBookName"
@@ -94,7 +94,7 @@
                 android:id="@+id/tvPublisher"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/title_publisher(book.publisher)}"
+                android:text="@{@string/title_publisher(item.publisher)}"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/tvBookName"
@@ -107,7 +107,7 @@
                 android:id="@+id/tvAmount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/title_amount(book.amount)}"
+                android:text="@{@string/title_amount(item.amount)}"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/tvBookName"

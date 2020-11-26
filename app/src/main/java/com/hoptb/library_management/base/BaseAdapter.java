@@ -9,10 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.hoptb.library_management.model.Book;
 
 import java.util.List;
 
@@ -59,7 +56,7 @@ public class BaseAdapter<T extends BaseModel> extends RecyclerView.Adapter<BaseA
     @Override
     public void onBindViewHolder(@NonNull BaseAdapter.BaseHolder baseHolder, final int i) {
         T item = data.get(i);
-        baseHolder.binding.setVariable(BR.book, item);
+        baseHolder.binding.setVariable(BR.item, item);
         baseHolder.binding.setVariable(BR.listener, listener);
         baseHolder.binding.executePendingBindings();
     }

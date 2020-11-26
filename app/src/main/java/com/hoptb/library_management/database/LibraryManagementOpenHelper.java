@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hoptb.library_management.model.Book;
+import com.hoptb.library_management.model.BorrowingModel;
 import com.hoptb.library_management.model.Reader;
 
 import java.util.ArrayList;
@@ -27,11 +28,17 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
     private static final String IMAGE = "image";
     private static final String DESCRIPTION = "description";
 
-    // Reader Table:
+    // Reader Table
     private static final String READER_TABLE_NAME = "reader";
     private static final String READER_ID = "readerId";
     private static final String READER_NAME = "readerName";
     private static final String STUDENT_CODE = "studentCode";
+
+    // Borrowing  Table
+    private static final String ID_BR = "id_br";
+    private static final String BR_TABLE_NAME = "borrowing";
+    private static final String BR_DATE = "borrowing";
+    private static final String RT_DATE = "returnDate";
 
 
     public LibraryManagementOpenHelper(Context context) {
@@ -46,16 +53,22 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         String createReaderTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
                 READER_TABLE_NAME, READER_ID, STUDENT_CODE, READER_NAME);
 
+        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
+                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE);
+
         db.execSQL(createBookTable);
         db.execSQL(createReaderTable);
+        db.execSQL(createBrTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String dropBookTable = String.format("DROP TABLE IF EXISTS %s", BOOK_TABLE_NAME);
         String dropReaderTable = String.format("DROP TABLE IF EXISTS %s", READER_TABLE_NAME);
+        String dropBrTable = String.format("DROP TABLE IF EXISTS %s", BR_TABLE_NAME);
         db.execSQL(dropBookTable);
         db.execSQL(dropReaderTable);
+        db.execSQL(dropBrTable);
         onCreate(db);
     }
 
@@ -168,19 +181,20 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         return bookList;
     }
 
-    public Reader selectReader(int readerId) {
-        Reader reader = new Reader();
-        String query = "SELECT * FROM " + READER_TABLE_NAME + " WHERE " + READER_ID + " = " + readerId;
+    public Reader selectReader(String code) {
+
+        String query = "SELECT * FROM " + READER_TABLE_NAME + " WHERE " + STUDENT_CODE + " = " + code;
         SQLiteDatabase database = getWritableDatabase();
         Cursor cursor = database.rawQuery(query, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
+            Reader reader = new Reader();
             reader.setReaderId(cursor.getInt(0));
             reader.setStudentCode(cursor.getString(1));
             reader.setReaderName(cursor.getString(2));
+            return reader;
         }
         database.close();
-        return reader;
+        return null;
     }
 
     public long insertReader(Reader reader) {
@@ -200,4 +214,59 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         database.close();
         return deleteStatus;
     }
+
+    public List<Reader> getAllReaders() {
+        List<Reader> readerList = new ArrayList<>();
+        String query = "SELECT * FROM " + READER_TABLE_NAME + " ORDER BY " + " LOWER(" + READER_NAME + ")";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Reader reader = new Reader();
+            reader.setReaderId(cursor.getInt(0));
+            reader.setStudentCode(cursor.getString(1));
+            reader.setReaderName(cursor.getString(2));
+            readerList.add(reader);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return readerList;
+    }
+
+
+    public long insertBorrowingRecord(BorrowingModel br) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(AMOUNT, br.getAmount());
+        values.put(BOOK_ID, br.getBookId());
+        values.put(READER_ID, br.getReaderId());
+        values.put(BR_DATE, br.getBrDate());
+        values.put(RT_DATE, br.getRtDate());
+        long rowInserted = database.insert(BR_TABLE_NAME, null, values);
+        database.close();
+        return rowInserted;
+    }
+
+    public List<BorrowingModel> getAllBrRecords() {
+        List<BorrowingModel> brList = new ArrayList<>();
+        String query = "SELECT * FROM " + BR_TABLE_NAME + " ORDER BY " + BR_DATE;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            BorrowingModel br = new BorrowingModel();
+            br.setBrId(cursor.getInt(0));
+            br.setBookId(cursor.getInt(1));
+            br.setReaderId(cursor.getInt(2));
+            br.setAmount(cursor.getInt(3));
+            br.setBrDate(cursor.getString(4));
+            br.setRtDate(cursor.getString(5));
+
+            brList.add(br);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return brList;
+    }
+
 }

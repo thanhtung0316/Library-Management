@@ -1,6 +1,7 @@
 package com.hoptb.library_management.ui.borrow_book;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.hoptb.library_management.R;
@@ -8,13 +9,15 @@ import com.hoptb.library_management.base.BaseFragment;
 import com.hoptb.library_management.databinding.FragmentBorrowContainerBinding;
 import com.hoptb.library_management.ui.borrow_book.book_info.BookInfoFragment;
 import com.hoptb.library_management.ui.borrow_book.borrow.BookBorrowingFragment;
+import com.hoptb.library_management.ui.borrow_book.reader.ReaderFragment;
 import com.hoptb.library_management.ui.category.CategoryFragment;
 import com.hoptb.library_management.ui.category.list_book.ListBookFragment;
 
 public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowContainerBinding, BorrowingContainerViewModel> {
     private static BorrowingContainerFragment INSTANCE;
-    private BookInfoFragment bookInfoFragment;
-    private BookBorrowingFragment borrowingFragment;
+    private BookInfoFragment bookInfoFragment = new BookInfoFragment();
+    private BookBorrowingFragment borrowingFragment = new BookBorrowingFragment();
+    private ReaderFragment readerFragment = new ReaderFragment();
     public static final String TAG = "BorrowingContainerFragm";
 
     public static BorrowingContainerFragment newInstance() {
@@ -41,16 +44,15 @@ public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowConta
 
     @Override
     protected void onCreateView() {
-        addFragment(BookInfoFragment.newInstance());
+        addAllFragment();
+        showFragment(bookInfoFragment);
     }
 
-    public void addFragment(Fragment fragment) {
+    public void addAllFragment() {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.brContainer, fragment);
-        for (Fragment fm : getChildFragmentManager().getFragments()) {
-            transaction.hide(fm);
-        }
-        transaction.show(fragment);
+        transaction.add(R.id.brContainer, bookInfoFragment);
+        transaction.add(R.id.brContainer, borrowingFragment);
+        transaction.add(R.id.brContainer, readerFragment);
         transaction.commit();
     }
 
@@ -60,11 +62,12 @@ public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowConta
         transaction.commit();
     }
 
-    public void showFragment(Fragment fm, boolean reloadData) {
+    public void showFragment(Fragment fm) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        for (Fragment f : getChildFragmentManager().getFragments()) {
-            transaction.hide(f);
-        }
+        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        transaction.hide(bookInfoFragment);
+        transaction.hide(borrowingFragment);
+        transaction.hide(readerFragment);
         transaction.show(fm);
         transaction.commit();
     }
@@ -89,5 +92,22 @@ public class BorrowingContainerFragment extends BaseFragment<FragmentBorrowConta
             containerFragment.removeFragment(this);
             containerFragment.showFragment(ListBookFragment.newInstance(), reloadData);
         }
+    }
+
+    public void popFragment(String tag) {
+        getChildFragmentManager().popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+    }
+
+    public ReaderFragment getReaderFragment() {
+        return readerFragment;
+    }
+
+    public BookInfoFragment getBookInfoFragment() {
+        return bookInfoFragment;
+    }
+
+    public BookBorrowingFragment getBorrowingFragment() {
+        return borrowingFragment;
     }
 }
