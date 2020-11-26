@@ -53,8 +53,8 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         String createReaderTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
                 READER_TABLE_NAME, READER_ID, STUDENT_CODE, READER_NAME);
 
-        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
-                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE);
+        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
+                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE, READER_NAME);
 
         db.execSQL(createBookTable);
         db.execSQL(createReaderTable);
@@ -240,6 +240,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(AMOUNT, br.getAmount());
         values.put(BOOK_ID, br.getBookId());
         values.put(READER_ID, br.getReaderId());
+        values.put(READER_NAME, br.getReaderName());
         values.put(BR_DATE, br.getBrDate());
         values.put(RT_DATE, br.getRtDate());
         long rowInserted = database.insert(BR_TABLE_NAME, null, values);
@@ -249,23 +250,25 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
 
     public List<BorrowingModel> getAllBrRecords() {
         List<BorrowingModel> brList = new ArrayList<>();
-        String query = "SELECT * FROM " + BR_TABLE_NAME + " ORDER BY " + BR_DATE;
+        String query = "SELECT * FROM " + BR_TABLE_NAME;
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            BorrowingModel br = new BorrowingModel();
-            br.setBrId(cursor.getInt(0));
-            br.setBookId(cursor.getInt(1));
-            br.setReaderId(cursor.getInt(2));
-            br.setAmount(cursor.getInt(3));
-            br.setBrDate(cursor.getString(4));
-            br.setRtDate(cursor.getString(5));
-
-            brList.add(br);
-            cursor.moveToNext();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                BorrowingModel br = new BorrowingModel();
+                br.setBrId(cursor.getInt(0));
+                br.setBookId(cursor.getInt(1));
+                br.setReaderId(cursor.getInt(2));
+                br.setAmount(cursor.getInt(3));
+                br.setBrDate(cursor.getString(4));
+                br.setRtDate(cursor.getString(5));
+                br.setReaderName(cursor.getString(6));
+                brList.add(br);
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
         return brList;
     }
 

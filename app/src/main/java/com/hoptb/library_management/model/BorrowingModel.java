@@ -3,13 +3,32 @@ package com.hoptb.library_management.model;
 import com.hoptb.library_management.base.BaseModel;
 
 public class BorrowingModel extends BaseModel {
+
+    private int numericalOrder;
     private int brId;
     private int readerId;
     private int bookId;
     private int amount;
     private String brDate;
     private String rtDate;
+    private String readerName;
 
+
+    public String getReaderName() {
+        return readerName;
+    }
+
+    public void setReaderName(String readerName) {
+        this.readerName = readerName;
+    }
+
+    public int getNumericalOrder() {
+        return numericalOrder;
+    }
+
+    public void setNumericalOrder(int numericalOrder) {
+        this.numericalOrder = numericalOrder;
+    }
 
     public int getBrId() {
         return brId;

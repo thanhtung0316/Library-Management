@@ -28,6 +28,7 @@ public class BookBorrowingFragment extends BaseFragment<FragmentBookBorrowingBin
     private String rtDate;
     private String brDate;
     private Book b;
+    private int amount;
 
     @Override
     protected Class<BookBorrowingViewModel> getViewModelClass() {
@@ -58,7 +59,11 @@ public class BookBorrowingFragment extends BaseFragment<FragmentBookBorrowingBin
             @Override
             public void onChanged(Long aLong) {
                 Toast.makeText(getContext(), "Cho mượn thành công", Toast.LENGTH_SHORT).show();
-
+                BorrowingContainerFragment fm = (BorrowingContainerFragment) getParentFragment();
+                if (fm != null) {
+                    fm.showFragment(fm.getBookInfoFragment());
+                    fm.getBookInfoFragment().setData(amount);
+                }
 
             }
         });
@@ -160,7 +165,9 @@ public class BookBorrowingFragment extends BaseFragment<FragmentBookBorrowingBin
 
                         br.setBookId(bookId);
                         br.setReaderId(reader.getReaderId());
-                        br.setAmount(Integer.parseInt(binding.edAmount.getText().toString()));
+                        br.setReaderName(reader.getReaderName());
+                        amount = Integer.parseInt(binding.edAmount.getText().toString());
+                        br.setAmount(amount);
                         br.setBrDate(binding.tvBorrowDate.getText().toString());
                         br.setRtDate(binding.tvReturnDate.getText().toString());
 

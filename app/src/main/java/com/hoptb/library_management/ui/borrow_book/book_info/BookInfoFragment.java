@@ -4,13 +4,17 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hoptb.library_management.R;
+import com.hoptb.library_management.base.BaseAdapter;
 import com.hoptb.library_management.base.BaseFragment;
 import com.hoptb.library_management.databinding.FragmentBookInfoBinding;
 import com.hoptb.library_management.model.Book;
+import com.hoptb.library_management.model.BorrowingModel;
 import com.hoptb.library_management.ui.borrow_book.BorrowingContainerFragment;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
 
     private static BookInfoFragment INSTANCE;
     public static final String TAG = "BookInfoFragment";
+    private Book book;
 
     public static BookInfoFragment newInstance() {
         if (INSTANCE == null) {
@@ -30,6 +35,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     }
 
     private int bookId;
+    private BaseAdapter<BorrowingModel> adapter;
 
     @Override
     protected Class<BookInfoViewModel> getViewModelClass() {
@@ -39,6 +45,9 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     @Override
     protected void onCreateView() {
         viewModel.getAllBooks();
+        viewModel.getListBr();
+        adapter = new BaseAdapter<>(getContext(), R.layout.item_br_record);
+        binding.rcBorrow.setAdapter(adapter);
 
         viewModel.listBook.observe(getViewLifecycleOwner(), new Observer<List<Book>>() {
             @Override
@@ -54,19 +63,26 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
 
             }
         });
+        viewModel.updateBookStatus.observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                viewModel.getBookInfo(bookId);
+            }
+        });
+        viewModel.bookInfo.observe(getViewLifecycleOwner(), new Observer<Book>() {
+            @Override
+            public void onChanged(Book book) {
+                setUpView(book);
+            }
+        });
+
 
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
-                Book book = (Book) adapter.getItem(i);
-                binding.tvBookName.setText(book.getBookName());
-                binding.tvTitleBookCode.setText(getString(R.string.title_book_id, String.valueOf(book.getBookId())));
-                binding.tvAmount.setText(getString(R.string.title_amount, String.valueOf(book.getAmount())));
-                binding.tvAuthor.setText(book.getAuthor());
-                binding.tvBookType.setText(book.getBookType());
-                binding.tvPublisher.setText(book.getPublisher());
-                bookId = book.getBookId();
+                book = (Book) adapter.getItem(i);
+                setUpView(book);
             }
 
             @Override
@@ -75,9 +91,35 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
             }
         });
         binding.lnBorrow.setOnClickListener(this);
-
+        viewModel.brList.observe(getViewLifecycleOwner(), new Observer<List<BorrowingModel>>() {
+            @Override
+            public void onChanged(List<BorrowingModel> borrowingModels) {
+                for (int i = 0; i < borrowingModels.size(); i++) {
+                    borrowingModels.get(i).setNumericalOrder(i + 1);
+                }
+                adapter.setData(borrowingModels);
+            }
+        });
+        binding.swipeRf.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.getAllBooks();
+                viewModel.getBookInfo(bookId);
+                Toast.makeText(getContext(), "Đã làm mới", Toast.LENGTH_SHORT).show();
+                binding.swipeRf.setRefreshing(false);
+            }
+        });
     }
 
+    private void setUpView(Book book) {
+        binding.tvBookName.setText(book.getBookName());
+        binding.tvTitleBookCode.setText(getString(R.string.title_book_id, String.valueOf(book.getBookId())));
+        binding.tvAmount.setText(getString(R.string.title_amount, String.valueOf(book.getAmount())));
+        binding.tvAuthor.setText(book.getAuthor());
+        binding.tvBookType.setText(book.getBookType());
+        binding.tvPublisher.setText(book.getPublisher());
+        bookId = book.getBookId();
+    }
 
     @Override
     protected int getLayoutId() {
@@ -93,6 +135,11 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lnBorrow:
+                if (book.getAmount() <= 0) {
+                    Toast.makeText(getContext(), "Sách này trong kho đã hết, vui lòng chọn cuốn khác!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 BorrowingContainerFragment fragments = (BorrowingContainerFragment) getParentFragment();
                 if (fragments != null) {
                     fragments.getBorrowingFragment().setData(bookId);
@@ -100,5 +147,12 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
                 }
                 break;
         }
+    }
+
+    public void setData(int amount) {
+        book.setAmount(book.getAmount() - amount);
+        viewModel.updateBook(book);
+        viewModel.getListBr();
+
     }
 }
