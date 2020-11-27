@@ -55,6 +55,11 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
                 for (Book book : books) {
                     bookNameList.add(book.getBookName());
                 }
+                if (books.size()==0){
+                    Book book = new Book();
+                    book.setBookId(0);
+                    viewModel.bookInfo.setValue(book);
+                }
                 ArrayAdapter<Book> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
                         books);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -88,7 +93,6 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         binding.lnBorrow.setOnClickListener(this);
@@ -136,7 +140,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lnBorrow:
-                if (book==null){
+                if (book==null||book.getBookId()==0){
                     Toast.makeText(getContext(), "Vui lòng chọn đầu sách.", Toast.LENGTH_SHORT).show();
                     return;
                 }

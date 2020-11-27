@@ -174,7 +174,11 @@ public class ReturnFragment extends BaseFragment<FragmentReturnBinding, ReturnVi
                                 " đã trả hết cuốn sách này", Toast.LENGTH_SHORT).show();
                     } else if (borrowingModel.getAmount() < Integer.parseInt(binding.edAmount.getText().toString())) {
                         Toast.makeText(getContext(), "Số lượng trả vượt quá số lượng mượn!", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }else if ( Integer.parseInt(binding.edAmount.getText().toString())<=0){
+                        Toast.makeText(getContext(), "Vui lòng nhập số lượng hợp lệ!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else {
                         viewModel.updateRecord(borrowingModel, Integer.parseInt(binding.edAmount.getText().toString()));
                     }
                 }

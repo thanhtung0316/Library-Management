@@ -24,7 +24,7 @@ public class BookBorrowingFragment extends BaseFragment<FragmentBookBorrowingBin
     public static final String TAG = "BookBorrowingFragment";
     private Integer bookId;
     private Reader reader;
-    private String format = "MM/dd/yyyy"; //In which you need put here
+    private String format = "dd/MM/yyyy"; //In which you need put here
     private String rtDate;
     private String brDate;
     private Book b;
