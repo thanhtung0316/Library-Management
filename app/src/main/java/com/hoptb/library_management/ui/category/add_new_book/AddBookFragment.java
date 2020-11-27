@@ -64,6 +64,7 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
                             binding.edBookType.setText(book.getBookType());
                             binding.edPublisher.setText(book.getPublisher());
                             binding.edtDesc.setText(book.getDescription());
+                            binding.edPosition.setText(book.getPosition());
                         }
                     }
                 });
@@ -124,7 +125,7 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
                 viewModel.onClickSave(isEditMode, bookId, binding.edBookName.getText().toString(),
                         binding.edAmount.getText().toString(), binding.edBookType.getText().toString(),
                         binding.edAuthor.getText().toString(), binding.edPublisher.getText().toString(),
-                        binding.edtDesc.getText().toString());
+                        binding.edtDesc.getText().toString(), binding.edPosition.getText().toString());
                 break;
         }
     }

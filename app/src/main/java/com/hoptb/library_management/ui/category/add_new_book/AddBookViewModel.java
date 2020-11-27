@@ -23,17 +23,18 @@ public class AddBookViewModel extends BaseViewModel {
     }
 
     public void onClickSave(Boolean isEditMode, Integer bookId, String bookName, String amount, String bookType, String author
-            , String publisher, String desc) {
+            , String publisher, String desc, String position) {
         if (isEditMode == null) {
             errorMessage.setValue("Có lỗi xảy ra!");
             return;
         }
 
-        if (bookName.isEmpty() || amount.isEmpty() || bookType.isEmpty() || author.isEmpty() || publisher.isEmpty()) {
+        if (bookName.isEmpty() || amount.isEmpty() || bookType.isEmpty() || author.isEmpty() || publisher.isEmpty() || position.isEmpty()) {
             errorMessage.setValue("Vui lòng nhập đầy đủ các trường!");
             return;
         }
         Book book = new Book(Integer.parseInt(amount), bookType, author, publisher, bookName, "", desc);
+        book.setPosition(position);
 
         if (isEditMode && bookId != null) {
             book.setBookId(bookId);

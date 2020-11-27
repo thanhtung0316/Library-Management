@@ -12,6 +12,7 @@ public class Book extends BaseModel {
     private String bookName;
     private String image;
     private String description;
+    private String position;
 
     private boolean selected;
 
@@ -26,6 +27,14 @@ public class Book extends BaseModel {
         this.image = image;
         this.description = description;
         this.amount = amount;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public boolean isSelected() {

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.hoptb.library_management.model.Book;
 import com.hoptb.library_management.model.BorrowingModel;
@@ -29,6 +28,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
     private static final String AUTHOR = "author";
     private static final String IMAGE = "image";
     private static final String DESCRIPTION = "description";
+    private static final String POSITION = "position";
 
     // Reader Table
     private static final String READER_TABLE_NAME = "reader";
@@ -41,6 +41,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
     private static final String BR_TABLE_NAME = "borrowing";
     private static final String BR_DATE = "borrowing";
     private static final String RT_DATE = "returnDate";
+    private static final String RT_DATE_2 = "returnDate2";
 
 
     public LibraryManagementOpenHelper(Context context) {
@@ -49,14 +50,14 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createBookTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s TEXT, %s TEXT,%s TEXT,%s TEXT,%s TEXT)",
-                BOOK_TABLE_NAME, BOOK_ID, BOOK_NAME, AMOUNT, BOOK_TYPE, PUBLISHER, AUTHOR, IMAGE, DESCRIPTION);
+        String createBookTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s TEXT, %s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT)",
+                BOOK_TABLE_NAME, BOOK_ID, BOOK_NAME, AMOUNT, BOOK_TYPE, PUBLISHER, AUTHOR, IMAGE, DESCRIPTION, POSITION);
 
         String createReaderTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
                 READER_TABLE_NAME, READER_ID, STUDENT_CODE, READER_NAME);
 
-        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
-                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE, READER_NAME,BOOK_NAME);
+        String createBrTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)",
+                BR_TABLE_NAME, ID_BR, BOOK_ID, READER_ID, AMOUNT, BR_DATE, RT_DATE, READER_NAME, BOOK_NAME, RT_DATE_2);
 
         db.execSQL(createBookTable);
         db.execSQL(createReaderTable);
@@ -109,6 +110,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(PUBLISHER, book.getPublisher());
         values.put(IMAGE, book.getImage());
         values.put(DESCRIPTION, book.getDescription());
+        values.put(POSITION, book.getPosition());
         long rowInserted = database.insert(BOOK_TABLE_NAME, null, values);
         database.close();
         return rowInserted;
@@ -137,6 +139,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             book.setAuthor(cursor.getString(5));
             book.setImage(cursor.getString(6));
             book.setDescription(cursor.getString(7));
+            book.setPosition(cursor.getString(8));
             cursor.close();
         }
         database.close();
@@ -153,11 +156,23 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(PUBLISHER, book.getPublisher());
         values.put(IMAGE, book.getImage());
         values.put(DESCRIPTION, book.getDescription());
+        values.put(POSITION, book.getPosition());
         int updateStatus = database.update(BOOK_TABLE_NAME, values, BOOK_ID + " = "
                 + book.getBookId(), null);
         database.close();
         return updateStatus;
     }
+
+    public int updateBook(int id, int amount) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(AMOUNT, amount);
+        int updateStatus = database.update(BOOK_TABLE_NAME, values, BOOK_ID + " = "
+                + id, null);
+        database.close();
+        return updateStatus;
+    }
+
 
     public List<Book> search(String keySearch) {
         List<Book> bookList = new ArrayList<>();
@@ -177,6 +192,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             book.setAuthor(cursor.getString(5));
             book.setImage(cursor.getString(6));
             book.setDescription(cursor.getString(7));
+            book.setPosition(cursor.getString(8));
             bookList.add(book);
             cursor.moveToNext();
         }
@@ -204,18 +220,20 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
                 br.setRtDate(cursor.getString(5));
                 br.setReaderName(cursor.getString(6));
                 br.setBookName(cursor.getString(7));
+                br.setRtDate2(cursor.getString(8));
                 brList.add(br);
                 cursor.moveToNext();
             }
             cursor.close();
         }
+        db.close();
         return brList;
     }
 
-    public List<BorrowingModel> getBrListThroughCode(String code) {
+    public List<BorrowingModel> getBrListThroughCode(int readerId) {
         List<BorrowingModel> brList = new ArrayList<>();
         String query = "SELECT * FROM " + BR_TABLE_NAME + " WHERE " + READER_ID + " = " + "'"
-                + code + "'";
+                + readerId + "'";
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -231,11 +249,13 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
                 br.setRtDate(cursor.getString(5));
                 br.setReaderName(cursor.getString(6));
                 br.setBookName(cursor.getString(7));
+                br.setRtDate2(cursor.getString(8));
                 brList.add(br);
                 cursor.moveToNext();
             }
             cursor.close();
         }
+        db.close();
         return brList;
     }
 
@@ -288,6 +308,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             readerList.add(reader);
             cursor.moveToNext();
         }
+        db.close();
         cursor.close();
         return readerList;
     }
@@ -331,5 +352,17 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         }
         return brList;
     }
+
+    public int updateRtRecord(int id, int amount, String date) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(AMOUNT, amount);
+        values.put(RT_DATE_2, date);
+        int updateStatus = database.update(BR_TABLE_NAME, values, ID_BR + " = "
+                + id, null);
+        database.close();
+        return updateStatus;
+    }
+
 
 }

@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hoptb.library_management.R;
 import com.hoptb.library_management.base.BaseAdapter;
@@ -60,6 +61,7 @@ public class ListBookFragment extends BaseFragment<FragmentListBookBinding, List
             @Override
             public void onChanged(List<Book> books) {
                 adapter.setData(books);
+                binding.swipeRf.setRefreshing(false);
                 if (books.size() == 0) {
                     binding.tvBookEmpty.setVisibility(View.VISIBLE);
                 } else {
@@ -77,7 +79,12 @@ public class ListBookFragment extends BaseFragment<FragmentListBookBinding, List
             }
         });
 
-
+        binding.swipeRf.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.getAllBooks();
+            }
+        });
     }
 
     @Override

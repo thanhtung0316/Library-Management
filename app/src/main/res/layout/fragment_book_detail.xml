@@ -225,6 +225,32 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvAuthor"
                     tools:text="NXB Kim Đồng" />
 
+
+                <TextView
+                    android:id="@+id/tvPositionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Vị trí"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/tvPosition"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvPosition" />
+
+                <TextView
+                    android:id="@+id/tvPosition"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingEnd="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPublisher"
+                    tools:text="Kệ 4 tầng 4" />
+
                 <View
                     android:id="@+id/viewBot"
                     android:layout_width="wrap_content"

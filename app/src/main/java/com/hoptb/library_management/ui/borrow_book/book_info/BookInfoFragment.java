@@ -65,7 +65,7 @@ public class BookInfoFragment extends BaseFragment<FragmentBookInfoBinding, Book
         viewModel.updateBookStatus.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-//                viewModel.getBookInfo(bookId);
+                viewModel.getBookInfo(bookId);
             }
         });
         viewModel.bookInfo.observe(getViewLifecycleOwner(), new Observer<Book>() {

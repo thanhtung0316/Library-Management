@@ -9,11 +9,15 @@
             name="item"
             type="com.hoptb.library_management.model.BorrowingModel" />
 
+        <variable
+            name="listener"
+            type="com.hoptb.library_management.ui.return_book.ItemRtListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{v-> listener.onItemRtClick(item)}">
 
         <TextView
             android:id="@+id/tvNumericalOrder"
@@ -22,26 +26,26 @@
             android:gravity="center"
             android:paddingVertical="5dp"
             android:text="@{``+item.numericalOrder}"
-            tools:text="1"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.085" />
+            app:layout_constraintWidth_percent="0.085"
+            tools:text="1" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="14sp"
             android:paddingVertical="5dp"
-            android:text="@{item.readerName}"
+            android:text="@{item.bookName}"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvNumericalOrder"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nam"
-            app:layout_constraintWidth_percent=".2" />
+            app:layout_constraintWidth_percent=".2"
+            tools:text="Nam" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -49,13 +53,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingVertical="5dp"
-            android:textSize="14sp"
             android:text="@{item.brDate + ` - ` +item.rtDate}"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvName"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="20/11/85"
-            app:layout_constraintWidth_percent=".3" />
+            app:layout_constraintWidth_percent=".3"
+            tools:text="20/11/85" />
 
         <TextView
             android:id="@+id/tvReturnDate"
@@ -68,23 +72,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvDate"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="25/55/66"
-            app:layout_constraintWidth_percent=".3" />
+            app:layout_constraintWidth_percent=".3"
+            tools:text="25/55/66" />
 
         <TextView
             android:id="@+id/tvAmount"
             android:layout_width="0dp"
-            android:textSize="14sp"
-            android:text="@{``+item.amount}"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingVertical="5dp"
+            android:text="@{``+item.amount}"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvReturnDate"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent=".1" />
+            app:layout_constraintWidth_percent=".1"
+            tools:text="2" />
 
         <View
             android:layout_width="0dp"

@@ -194,6 +194,31 @@
                     app:layout_constraintTop_toBottomOf="@+id/edAuthor" />
 
                 <TextView
+                    android:id="@+id/tvTitlePosition"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="5dp"
+                    android:text="Vị trí:"
+                    app:layout_constraintBottom_toBottomOf="@+id/edPosition"
+                    app:layout_constraintEnd_toEndOf="@id/glCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edPosition" />
+
+                <EditText
+                    android:id="@+id/edPosition"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:hint="vd: Kệ 5 tầng 2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/edPublisher" />
+
+
+                <TextView
                     android:id="@+id/tvDesc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -217,7 +242,7 @@
                     app:layout_constraintBottom_toTopOf="@id/viewBot"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/glCenter"
-                    app:layout_constraintTop_toBottomOf="@+id/edPublisher" />
+                    app:layout_constraintTop_toBottomOf="@+id/edPosition" />
 
 
                 <View
