@@ -1,5 +1,7 @@
 package com.hoptb.library_management.model;
 
+import android.graphics.Bitmap;
+
 import com.hoptb.library_management.base.BaseModel;
 
 public class Book extends BaseModel {
@@ -10,21 +12,20 @@ public class Book extends BaseModel {
     private String author;
     private String publisher;
     private String bookName;
-    private String image;
     private String description;
     private String position;
+    private Bitmap bitmap;
 
     private boolean selected;
 
     public Book() {
     }
 
-    public Book(int amount, String bookType, String author, String publisher, String bookName, String image, String description) {
+    public Book(int amount, String bookType, String author, String publisher, String bookName, String description) {
         this.bookType = bookType;
         this.author = author;
         this.publisher = publisher;
         this.bookName = bookName;
-        this.image = image;
         this.description = description;
         this.amount = amount;
     }
@@ -93,12 +94,12 @@ public class Book extends BaseModel {
         this.bookName = bookName;
     }
 
-    public String getImage() {
-        return image;
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public String getDescription() {

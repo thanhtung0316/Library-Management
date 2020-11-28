@@ -1,13 +1,26 @@
 package com.hoptb.library_management.ui.category.add_new_book;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 import com.hoptb.library_management.R;
 import com.hoptb.library_management.base.BaseFragment;
+import com.hoptb.library_management.database.LibraryManagementOpenHelper;
 import com.hoptb.library_management.databinding.FragmentAddNewBookBinding;
 import com.hoptb.library_management.model.Book;
 import com.hoptb.library_management.ui.category.CategoryFragment;
@@ -16,6 +29,10 @@ import com.hoptb.library_management.ui.category.list_book.ListBookFragment;
 public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, AddBookViewModel> implements View.OnClickListener {
     private Boolean isEditMode;
     private Integer bookId;
+    private static int RESULT_LOAD_IMG = 1;
+    public final int REQUEST_CODE_FOR_PERMISSIONS = 654;
+    private String picturePath;
+    private Bitmap bm;
 
     public static AddBookFragment addNewBook() {
         Bundle args = new Bundle();
@@ -49,7 +66,18 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
         if (isEditMode == null) {
             return;
         }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_CODE_FOR_PERMISSIONS);
+            }
+        }
         if (isEditMode) {
             if (bookId != null) {
                 binding.tvTitle.setText("Chỉnh sửa");
@@ -65,6 +93,7 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
                             binding.edPublisher.setText(book.getPublisher());
                             binding.edtDesc.setText(book.getDescription());
                             binding.edPosition.setText(book.getPosition());
+                            binding.imBook.setImageBitmap(book.getBitmap());
                         }
                     }
                 });
@@ -102,7 +131,7 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
         }
         binding.imBack.setOnClickListener(this);
         binding.btnSave.setOnClickListener(this);
-
+        binding.imBook.setOnClickListener(this);
     }
 
     @Override
@@ -125,7 +154,11 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
                 viewModel.onClickSave(isEditMode, bookId, binding.edBookName.getText().toString(),
                         binding.edAmount.getText().toString(), binding.edBookType.getText().toString(),
                         binding.edAuthor.getText().toString(), binding.edPublisher.getText().toString(),
-                        binding.edtDesc.getText().toString(), binding.edPosition.getText().toString());
+                        binding.edtDesc.getText().toString(), binding.edPosition.getText().toString(), bm);
+                break;
+            case R.id.imBook:
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMG);
                 break;
         }
     }
@@ -136,5 +169,29 @@ public class AddBookFragment extends BaseFragment<FragmentAddNewBookBinding, Add
             containerFragment.removeFragment(this);
             containerFragment.showFragment(ListBookFragment.newInstance(), reloadData);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOAD_IMG && data != null) {
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+
+            assert cursor != null;
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            bm = BitmapFactory.decodeFile(picturePath);
+            binding.imBook.setImageBitmap(bm);
+        }
+    }
+
+    private void getImage(Bitmap bm) {
+
     }
 }

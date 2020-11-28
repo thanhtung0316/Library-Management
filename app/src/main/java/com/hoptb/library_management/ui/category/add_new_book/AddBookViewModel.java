@@ -1,6 +1,7 @@
 package com.hoptb.library_management.ui.category.add_new_book;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -23,7 +24,7 @@ public class AddBookViewModel extends BaseViewModel {
     }
 
     public void onClickSave(Boolean isEditMode, Integer bookId, String bookName, String amount, String bookType, String author
-            , String publisher, String desc, String position) {
+            , String publisher, String desc, String position, Bitmap bm) {
         if (isEditMode == null) {
             errorMessage.setValue("Có lỗi xảy ra!");
             return;
@@ -33,9 +34,11 @@ public class AddBookViewModel extends BaseViewModel {
             errorMessage.setValue("Vui lòng nhập đầy đủ các trường!");
             return;
         }
-        Book book = new Book(Integer.parseInt(amount), bookType, author, publisher, bookName, "", desc);
+        Book book = new Book(Integer.parseInt(amount), bookType, author, publisher, bookName, desc);
         book.setPosition(position);
-
+        if (bm!=null){
+            book.setBitmap(bm);
+        }
         if (isEditMode && bookId != null) {
             book.setBookId(bookId);
             updateStatus.postValue(libraryManagementOpenHelper.updateBook(book));
@@ -48,5 +51,4 @@ public class AddBookViewModel extends BaseViewModel {
     public void getBook(int id) {
         book.postValue(libraryManagementOpenHelper.selectBook(id));
     }
-
 }

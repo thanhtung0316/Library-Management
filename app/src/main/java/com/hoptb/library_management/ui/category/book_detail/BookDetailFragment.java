@@ -48,6 +48,7 @@ public class BookDetailFragment extends BaseFragment<FragmentBookDetailBinding, 
                 binding.tvPublisher.setText(book.getPublisher());
                 binding.tvDesc.setText(getString(R.string.title_desc, book.getDescription()));
                 binding.tvPosition.setText(book.getPosition());
+                binding.imBook.setImageBitmap(book.getBitmap());
             }
         });
     }

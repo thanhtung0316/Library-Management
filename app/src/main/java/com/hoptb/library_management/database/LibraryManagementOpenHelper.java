@@ -5,11 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.hoptb.library_management.model.Book;
 import com.hoptb.library_management.model.BorrowingModel;
 import com.hoptb.library_management.model.Reader;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +53,8 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createBookTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s TEXT, %s TEXT,%s TEXT,%s TEXT,%s TEXT,%s TEXT)",
-                BOOK_TABLE_NAME, BOOK_ID, BOOK_NAME, AMOUNT, BOOK_TYPE, PUBLISHER, AUTHOR, IMAGE, DESCRIPTION, POSITION);
+        String createBookTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s TEXT, %s TEXT,%s TEXT,%s TEXT BLOB NOT NULL,%s TEXT,%s TEXT)",
+                BOOK_TABLE_NAME, BOOK_ID, BOOK_NAME, AMOUNT, BOOK_TYPE, PUBLISHER, AUTHOR,IMAGE,DESCRIPTION, POSITION);
 
         String createReaderTable = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
                 READER_TABLE_NAME, READER_ID, STUDENT_CODE, READER_NAME);
@@ -84,16 +87,21 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Book book = new Book();
+            Bitmap bitmap ;
             book.setBookId(cursor.getInt(0));
             book.setBookName(cursor.getString(1));
             book.setAmount(cursor.getInt(2));
             book.setBookType(cursor.getString(3));
             book.setPublisher(cursor.getString(4));
             book.setAuthor(cursor.getString(5));
-            book.setImage(cursor.getString(6));
+//            book.setImage(cursor.getString(6));
+            byte[] blob = cursor.getBlob(cursor.getColumnIndex(IMAGE));
+            bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+            book.setBitmap(bitmap);
             book.setDescription(cursor.getString(7));
             bookList.add(book);
             cursor.moveToNext();
+
         }
         cursor.close();
         return bookList;
@@ -108,9 +116,14 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(BOOK_TYPE, book.getBookType());
         values.put(AUTHOR, book.getAuthor());
         values.put(PUBLISHER, book.getPublisher());
-        values.put(IMAGE, book.getImage());
         values.put(DESCRIPTION, book.getDescription());
         values.put(POSITION, book.getPosition());
+        if (book.getBitmap()!=null){
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            book.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
+            byte[] buffer = out.toByteArray();
+            values.put(IMAGE, buffer);
+        }
         long rowInserted = database.insert(BOOK_TABLE_NAME, null, values);
         database.close();
         return rowInserted;
@@ -130,6 +143,7 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         Cursor cursor = database.rawQuery(query, null);
         if (cursor != null) {
+            Bitmap bitmap;
             cursor.moveToFirst();
             book.setBookId(cursor.getInt(0));
             book.setBookName(cursor.getString(1));
@@ -137,9 +151,13 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             book.setBookType(cursor.getString(3));
             book.setPublisher(cursor.getString(4));
             book.setAuthor(cursor.getString(5));
-            book.setImage(cursor.getString(6));
+//            book.setImage(cursor.getString(6));
+            //TODO SET BITMAP
             book.setDescription(cursor.getString(7));
             book.setPosition(cursor.getString(8));
+            byte[] blob = cursor.getBlob(cursor.getColumnIndex(IMAGE));
+            bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+            book.setBitmap(bitmap);
             cursor.close();
         }
         database.close();
@@ -154,9 +172,15 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
         values.put(BOOK_TYPE, book.getBookType());
         values.put(AUTHOR, book.getAuthor());
         values.put(PUBLISHER, book.getPublisher());
-        values.put(IMAGE, book.getImage());
         values.put(DESCRIPTION, book.getDescription());
         values.put(POSITION, book.getPosition());
+        if (book.getBitmap()!=null){
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            book.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
+            byte[] buffer = out.toByteArray();
+            values.put(IMAGE, buffer);
+        }
+
         int updateStatus = database.update(BOOK_TABLE_NAME, values, BOOK_ID + " = "
                 + book.getBookId(), null);
         database.close();
@@ -190,7 +214,8 @@ public class LibraryManagementOpenHelper extends SQLiteOpenHelper {
             book.setBookType(cursor.getString(3));
             book.setPublisher(cursor.getString(4));
             book.setAuthor(cursor.getString(5));
-            book.setImage(cursor.getString(6));
+//            book.setImage(cursor.getString(6));
+            //TODO SET BITMAP
             book.setDescription(cursor.getString(7));
             book.setPosition(cursor.getString(8));
             bookList.add(book);
