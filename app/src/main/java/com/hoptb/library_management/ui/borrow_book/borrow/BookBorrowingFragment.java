@@ -53,6 +53,7 @@ public class BookBorrowingFragment extends BaseFragment<FragmentBookBorrowingBin
                 binding.tvAuthor.setText(book.getAuthor());
                 binding.tvBookType.setText(book.getBookType());
                 binding.tvPublisher.setText(book.getPublisher());
+                binding.imBook.setImageBitmap(book.getBitmap());
             }
         });
         viewModel.insertBrStatus.observe(getViewLifecycleOwner(), new Observer<Long>() {
